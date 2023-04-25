@@ -14,8 +14,6 @@
             if(mysqli_connect_errno()){
                 echo 'db connect fail..';
                 echo mysqli_connect_error();
-            } else {
-                echo "db conneted..";
             }
         ?>
 
@@ -42,6 +40,4 @@
             </li>
         </ol>
     </body>
-
-    <!-- 고유번호, 아이디, 비밀번호, 이메일 -->
 </html>

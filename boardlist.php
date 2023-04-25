@@ -5,15 +5,6 @@
         <meta charset="utf-8">
     </head>
     <body>
-        <?php
-            if(mysqli_connect_errno()){
-                echo 'db connect fail..';
-                echo mysqli_connect_error();
-            } else {
-                echo "db conneted..";
-            }
-        ?>
-
         <h1>
             <a href="index.php">
                 Main page
