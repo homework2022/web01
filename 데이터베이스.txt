@@ -1,8 +1,45 @@
-회원
-고유번호 아이디 비밀번호 닉네임 이메일 가입시각
+[회원]
+CREATE TABLE member
+(
+     user_no     INT     NOT NULL     AUTO_INCREMENT     PRIMARY KEY,     	-- 회원 고유번호(PK)
+     user_id     VARCHAR(20)     NOT NULL,     					-- 회원 ID
+     password     VARCHAR(20)     NOT NULL,    	 			-- 비밀번호
+     nickname     VARCHAR(20),     						-- 닉네임
+     email     VARCHAR(128)     NOT NULL,    	 				-- 이메일
+     join_date     DATETIME     NOT NULL,     					-- 가입시각
+     withdrawal_date     DATETIME     DEFAULT NULL     				-- 탈퇴시각
+);
 
-게시물
-고유번호 제목 내용 작성시각 수정시각 회원고유번호(외부키 on delete set null)
+[게시물]
+CREATE TABLE board
+(
+     board_no     INT     NOT NULL     AUTO_INCREMENT     PRIMARY KEY,  	-- 게시물 고유번호(PK)
+     title     VARCHAR(50)     NOT NULL, 					-- 제목
+     content     TEXT     NOT NULL,     					-- 내용
+     view     INT     DEFAULT 0,  						-- 조회수
+     like     INT     DEFAULT 0, 						-- 추천수
+     create_date     DATETIME     NOT NULL, 					-- 작성시각
+     update_date    DATETIME     DEFAULT NULL, 				-- 수정시각
+     delete_date     DATETIME     DEFAULT NULL, 				-- 삭제시각
+     user_no     INT, 			 				-- 회원 고유번호(FK)
+     FOREIGN KEY(user_no) REFERENCES member(user_no) ON DELETE SET NULL
+);
 
-댓글
-고유번호 내용 작성시각 수정시각 회원고유번호(외부키 on delete set null) 게시판고유번호(외부키 on delete cascade)
+[댓글]
+CREATE TABLE reply
+(
+     reply_no     INT     NOT NULL     AUTO_INCREMENT     PRIMARY KEY, 		-- 댓글 고유번호(PK)
+     content     VARCHAR(1000)     NOT NULL, 					-- 내용
+     depth     INT, 								-- 대댓글이면 1 아니면 0
+     to_user_nickname     VARCHAR(20)     DEFAULT NULL, 			-- 누구에게 쓴 댓글인지
+     group_no     INT     DEFAULT NULL, 					-- 대댓글 그룹
+     like     INT     DEFAULT 0, 						-- 추천수
+     create_date     DATETIME     NOT NULL, 					-- 작성시각
+     update_date    DATETIME     DEFAULT NULL, 				-- 수정시각
+     delete_date     DATETIME     DEFAULT NULL, 				-- 삭제시각
+     delete_by     CHAR(1)     DEFAULT NULL, 					-- 삭제한 사람(본인: 'a', 게시글작성자: 'b', 운영자: 'c')
+     user_no     INT, 							-- 회원 고유번호(FK)
+     board_no     INT, 							-- 게시판 고유번호(FK)
+     FOREIGN KEY(user_no) REFERENCES member(user_no) ON DELETE SET NULL,
+     FOREIGN KEY(board_no) REFERENCES member(board_no) ON DELETE SET NULL
+);
