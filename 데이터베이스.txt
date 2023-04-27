@@ -4,7 +4,7 @@ CREATE TABLE member
      user_no     INT     NOT NULL     AUTO_INCREMENT     PRIMARY KEY,     	-- 회원 고유번호(PK)
      user_id     VARCHAR(20)     NOT NULL,     					-- 회원 ID
      password     VARCHAR(20)     NOT NULL,    	 			-- 비밀번호
-     nickname     VARCHAR(20),     						-- 닉네임
+     nickname     VARCHAR(20)     NOT NULL,     				-- 닉네임
      email     VARCHAR(128)     NOT NULL,    	 				-- 이메일
      join_date     DATETIME     NOT NULL,     					-- 가입시각
      withdrawal_date     DATETIME     DEFAULT NULL     				-- 탈퇴시각
@@ -14,6 +14,7 @@ CREATE TABLE member
 CREATE TABLE board
 (
      board_no     INT     NOT NULL     AUTO_INCREMENT     PRIMARY KEY,  	-- 게시물 고유번호(PK)
+     category     INT     NOT NULL 						-- 카테고리 번호
      title     VARCHAR(50)     NOT NULL, 					-- 제목
      content     TEXT     NOT NULL,     					-- 내용
      view     INT     DEFAULT 0,  						-- 조회수
