@@ -1,3 +1,8 @@
+<?php
+    require_once('lib/connect.php');
+    require_once('lib/check.php');
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,24 +10,6 @@
         <meta charset="utf-8">
     </head>
     <body>
-        <?php
-            $dbConnect = mysqli_connect(
-                'localhost',
-                'root',
-                '',
-                'web01'
-            );
-
-            if(mysqli_connect_errno()){
-                echo 'db connect fail..';
-                echo mysqli_connect_error();
-            }
-
-            if(!session_id()) { 
-                session_start(); 
-            }
-        ?>
-
         <h1>
             <a href="index.php">
                 Main page
@@ -30,7 +17,7 @@
         </h1>
         <ol>
             <?php
-                if(isset($_SESSION['user_id']) && $_SESSION['user_id'] != '') {
+                if(isset($_SESSION['user_id'])) {
                     echo("hello, ".$_SESSION['user_id']);
                     echo('<li>
                             <a href="mypage.php">
@@ -56,6 +43,7 @@
                         </li>');
                 }
             ?>
+            <br>
             <li>
                 <a href="boardlist.php">
                     게시판

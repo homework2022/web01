@@ -10,6 +10,11 @@
     </form>
 </p>
 
+<ul>
+    <li><a href="find_userid.php">아이디 찾기</a></li>
+    <li><a href="reset_password.php">비밀번호 찾기</a></li>
+</ul>
+
 <?php
     require_once('view/bottom.php');
 ?>

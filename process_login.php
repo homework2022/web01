@@ -1,18 +1,13 @@
 <?php
-    $dbConnect = mysqli_connect(
-        'localhost',
-        'root',
-        '',
-        'web01'
-    );
-
-    if (mysqli_connect_errno()) {
-        echo 'db connect fail..';
-        echo mysqli_connect_error();
-    }
+    require_once('lib/connect.php');
 
     $sql = "SELECT password FROM member WHERE user_id = '".$_POST['id']."';";
     $result = mysqli_query($dbConnect, $sql);
+    if ($result == false) {
+        echo mysqli_error($dbConnect);
+        echo("<script>alert('db 오류')</script>");
+        exit;
+    }
     while ($row = mysqli_fetch_array($result)){
         $db_password = $row['password'];
     }
