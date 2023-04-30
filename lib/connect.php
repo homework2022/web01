@@ -5,16 +5,7 @@
         '',
         'web01'
     );
-
-    if (mysqli_connect_errno()) {
-        echo 'db connect fail..';
-        echo mysqli_connect_error();
-    }
-
-    if(!session_id()) { 
-        session_start(); 
-    }
-
+    
     function myquery($dbConnect, $sql){
         $result = mysqli_query($dbConnect, $sql);
         if ($result == false) {
@@ -25,5 +16,14 @@
         else {
             return $result;
         }
+    }
+
+    if (mysqli_connect_errno()) {
+        echo 'db connect fail..';
+        echo mysqli_connect_error();
+    }
+
+    if(!session_id()) { 
+        session_start(); 
     }
 ?>

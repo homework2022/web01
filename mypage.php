@@ -1,6 +1,5 @@
 <?php
     require_once('view/top.php');
-    require_once('lib/check.php');
 
     check_session();
 ?>
@@ -10,7 +9,7 @@
     <li>내가 쓴 글</li>
     <li>내가 쓴 댓글</li>
     <li>피드</li>
-    <li>회원탈퇴</li>
+    <li><a href="withdrawal.php">회원탈퇴</a></li>
 </ul>
 
 

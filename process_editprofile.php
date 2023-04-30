@@ -26,17 +26,9 @@
         }
         else {
             $sql = "UPDATE member SET password = '{$_POST['password']}' WHERE user_id = '{$_SESSION['user_id']}';";
-            $result = mysqli_query($dbConnect, $sql);
-            if ($result == false) {
-                echo mysqli_error($dbConnect);
-                echo("<script>alert('db 오류')</script>");
-                exit;
-            }
-            else{
-                echo("<script>alert('변경 성공')</script>");
-                echo("<script>window.location = '/web01/editprofile.php';</script>");
-                exit;
-            }
+            $result = myquery($dbConnect, $sql);
+            echo("<script>alert('변경 성공')</script>");
+            echo("<script>window.location = '/web01/editprofile.php';</script>");
         }
     }
 

@@ -1,13 +1,8 @@
 <?php
     require_once('lib/connect.php');
 
-    $sql = "SELECT user_id FROM member WHERE email = '{$_POST['email']}'";
-    $result = mysqli_query($dbConnect, $sql);
-    if ($result == false) {
-        echo mysqli_error($dbConnect);
-        echo("<script>alert('db 오류')</script>");
-        exit;
-    }
+    $sql = "SELECT user_id FROM member WHERE email = '{$_POST['email']}' AND withdrawal_date IS NULL;";
+    $result = myquery($dbConnect, $sql);
     while ($row = mysqli_fetch_array($result)){
         echo("<script>alert('아이디: ".$row['user_id']."')</script>");
         echo("<script>window.location = '/web01/login.php';</script>");

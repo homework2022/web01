@@ -36,16 +36,9 @@
      )
     ";
 
-    $result = mysqli_query($dbConnect, $sql);
-
-    if ($result == false) {
-        echo mysqli_error($dbConnect);
-        echo("<script>alert('db 오류')</script>");
-        exit;
-    }
-    else {
-        echo("<script>alert('회원 가입 성공')</script>");
-    }
+    $result = myquery($dbConnect, $sql);
+    
+    echo("<script>alert('회원 가입 성공')</script>");
     echo("<script>window.location = '/web01/index.php';</script>");
     exit;
 ?>
