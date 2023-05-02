@@ -7,7 +7,7 @@
         $db_password = $row['password'];
     }
 
-    if (!is_null($db_password) && $_POST['password'] == $db_password){
+    if (isset($db_password) && $_POST['password'] == $db_password){
         echo("<script>alert('login 성공')</script>");
 
         if(!session_id()) { 

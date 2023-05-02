@@ -13,16 +13,17 @@ CREATE TABLE member
 [게시물]
 CREATE TABLE board
 (
-     board_no     INT     NOT NULL     AUTO_INCREMENT     PRIMARY KEY,  	-- 게시물 고유번호(PK)
-     category     INT     NOT NULL 						-- 카테고리 번호
-     title     VARCHAR(50)     NOT NULL, 					-- 제목
-     content     TEXT     NOT NULL,     					-- 내용
-     view     INT     DEFAULT 0,  						-- 조회수
-     like     INT     DEFAULT 0, 						-- 추천수
-     create_date     DATETIME     NOT NULL, 					-- 작성시각
-     update_date    DATETIME     DEFAULT NULL, 				-- 수정시각
-     delete_date     DATETIME     DEFAULT NULL, 				-- 삭제시각
-     user_no     INT, 			 				-- 회원 고유번호(FK)
+     board_no     INT     NOT NULL 	AUTO_INCREMENT 	PRIMARY KEY,   	-- 게시물 고유번호(PK)
+     category 	INT 	NOT NULL,  					-- 카테고리 번호 (1: 공지, 2: 자유, 3: Q&A, 4: 정보공유)
+     title 	VARCHAR(50) 	NOT NULL,  					-- 제목
+     content 	TEXT 	NOT NULL,      					-- 내용
+     view 	INT 	DEFAULT 0,   						-- 조회수
+     likes 	INT 	DEFAULT 0,  						-- 추천수
+     reply_cnt INT   DEFAULT 0,  						-- 댓글수
+     create_date 	DATETIME 	NOT NULL,  				-- 작성시각
+     update_date 	DATETIME 	DEFAULT NULL,  				-- 수정시각
+     delete_date 	DATETIME 	DEFAULT NULL,  				-- 삭제시각
+     user_no 	INT,  			 				-- 회원 고유번호(FK)
      FOREIGN KEY(user_no) REFERENCES member(user_no) ON DELETE SET NULL
 );
 

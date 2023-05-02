@@ -45,7 +45,7 @@
             ?>
             <br>
             <li>
-                <a href="boardlist.php">
+                <a href="boardlist.php?id=0">
                     게시판
                 </a>
             </li>
