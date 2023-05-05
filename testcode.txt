@@ -1,0 +1,12 @@
+for ($i = 0; $i < 100; $i++) {
+    $sql = "INSERT INTO board (user_no, category, title, content, create_date)
+    VALUES (
+       (SELECT user_no FROM member WHERE user_id = '{$_SESSION['user_id']}'),
+       '4',
+       '$i',
+       '$i',
+       now()
+    )";
+    $result = myquery($dbConnect, $sql);
+    sleep(1);
+}

@@ -21,3 +21,4 @@
     echo("<script>window.location = '/web01/boardlist.php?id={$_POST['category']}';</script>");
     exit;
 ?>
+

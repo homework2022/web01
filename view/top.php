@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Web01 - main page</title>
+        <title><?php echo "Web01 - ".basename($_SERVER['PHP_SELF'], '.php')?></title>
         <meta charset="utf-8">
     </head>
     <body>
@@ -45,7 +45,7 @@
             ?>
             <br>
             <li>
-                <a href="boardlist.php?id=0">
+                <a href="boardlist.php?id=0&p=1">
                     게시판
                 </a>
             </li>
