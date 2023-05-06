@@ -1,7 +1,8 @@
 <?php
     require_once('view/top.php');
-
+    
     if (!isset($_GET['id']) || !isset($_GET['p'])) {
+        echo("<script>alert('카테고리와 페이지가 설정되지 않음.')</script>");
         echo("<script>window.location = '/web01/boardlist.php?id=0&p=1';</script>");
     }
     if ($_GET['id'] < 0 || $_GET['id'] > 4
@@ -65,16 +66,71 @@
 </p>
 
 <?php
-    $sql = "SELECT SQL_CALC_FOUND_ROWS title, create_date, user_no, view, likes, reply_cnt, board_no FROM board "; 
-    if (!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && $_SESSION['user_id'] != 'admin')) {
-        $sql = $sql."WHERE delete_date IS NULL ";
+    echo ".......................";
+    if (!isset($_GET['sort'])) {
+        $sort = 1;
     }
+    else {
+        $sort = $_GET['sort'];
+    }
+?>
+
+<p>
+    <form action="<?php echo "{$_SERVER['PHP_SELF']}"; ?>" method="GET">
+        <input type="hidden" name="id" value="<?=$_GET['id']?>">
+        <input type="hidden" name="p" value="1">
+        <select name="sort">
+            <option value="1" <?php if ($sort == 1) { echo("selected"); } ?>>최신순</option>
+            <option value="2" <?php if ($sort == 2) { echo("selected"); } ?>>좋아요순</option>
+            <option value="3" <?php if ($sort == 3) { echo("selected"); } ?>>조회순</option>
+        </select>
+        <select name="search">
+            <option value="1" >제목+내용</option>
+            <option value="2" >제목</option>
+            <option value="3" >작성자</option>
+        </select>
+        <input type="text" name="word" maxlength="20">
+        <input type="submit" value="검색 + 정렬하기">
+    </form>
+</p>
+
+<?php
+    $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM board WHERE 1=1 "; 
+    if (!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && $_SESSION['user_id'] != 'admin')) {
+        $sql = $sql."AND delete_date IS NULL ";
+    }
+
     if ($_GET['id'] != 0) {
         $sql = $sql."AND category = {$_GET['id']} ";
     }
+
+    if (isset($_GET['search'])) {
+        if ($_GET['search'] == '1') {
+            $sql = $sql."AND (title LIKE '%{$_GET['word']}%' OR content LIKE '%{$_GET['word']}%') ";
+        }
+        else if ($_GET['search'] == '2') {
+            $sql = $sql."AND title LIKE '%{$_GET['word']}%' ";
+        }
+        else if ($_GET['search'] == '3') {
+            $sql = $sql."AND user_no IN (SELECT user_no FROM member WHERE nickname LIKE '%{$_GET['word']}%') ";
+        }
+    }
+
+    if ($sort == '1') {
+        $sql = $sql."ORDER BY board_no DESC ";
+    }
+    else if ($sort == '2') {
+        $sql = $sql."ORDER BY likes DESC, board_no DESC ";
+    }
+    else if ($sort == '3') {
+        $sql = $sql."ORDER BY view DESC, board_no DESC ";
+    }
+
     $offset = ($_GET['p'] - 1) * 20;
-    $sql = $sql."ORDER BY board_no DESC LIMIT {$offset}, 20;";
+    $sql = $sql."LIMIT {$offset}, 20;";
     $result = myquery($dbConnect, $sql);
+
+    echo $sql;
     
     $sql = "SELECT FOUND_ROWS() AS total;";
     $tmp = mysqli_fetch_array(myquery($dbConnect, $sql));
@@ -126,13 +182,22 @@
     </tbody>
 </table>
 
+<!-- 페이지네이션 -->
 <p>
     <center style = " font-size:1.5em;  color: green;">
         <?php
+            $url = "boardlist.php?id={$_GET['id']}&sort={$sort}";
+            if (isset($_GET['search'])) {
+                $url = $url."&search={$_GET['search']}";
+            }
+            if (isset($_GET['word'])) {
+                $url = $url."&word={$_GET['word']}";
+            }
+
             $left = ($_GET['p'] - 1) - ($_GET['p'] - 1) % 10 + 1;
             if ($left > 1) {
                 $previous = $left - 1;
-                echo "<a href='boardlist.php?id={$_GET['id']}&p={$previous}'><이전</a> ";
+                echo "<a href='{$url}&p={$previous}'><이전</a> ";
             }
             else {
                 echo "<이전 ";
@@ -141,17 +206,17 @@
             for ($i = $left; $i <= $total_page && $i < $left + 10; $i++) {
                 if ($i == $_GET['p']) {
                     echo "<b>
-                            <a href='boardlist.php?id={$_GET['id']}&p={$i}'>{$i}</a>
+                            <a href='{$url}&p={$i}'>{$i}</a>
                         </b> ";
                 }
                 else {
-                    echo "<a href='boardlist.php?id={$_GET['id']}&p={$i}'>{$i}</a> ";
+                    echo "<a href='{$url}&p={$i}'>{$i}</a> ";
                 }
             }
 
             if ($i <= $total_page) {
                 $next = $i;
-                echo "<a href='boardlist.php?id={$_GET['id']}&p={$next}'>다음></a>";
+                echo "<a href='{$url}&p={$next}'>다음></a>";
             }
             else {
                 echo "다음>";

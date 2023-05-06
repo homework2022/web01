@@ -27,6 +27,15 @@ CREATE TABLE board
      FOREIGN KEY(user_no) REFERENCES member(user_no) ON DELETE SET NULL
 );
 
+[조회수]
+CREATE TABLE view
+(
+     view_no     INT     NOT NULL      AUTO_INCREMENT     PRIMARY KEY,     	-- 조회수 고유번호(PK)
+     user_id     VARCHAR(30)     NOT NULL,  					-- 조회한 유저 id(비로그인시 세션 id)
+     board_no     INT,  							-- 조회한 게시물 번호(FK)
+     FOREIGN KEY(board_no) REFERENCES board(board_no) ON DELETE CASCADE
+);     
+
 [댓글]
 CREATE TABLE reply
 (

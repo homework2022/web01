@@ -15,8 +15,10 @@
     while ($row = mysqli_fetch_array($result)){
         if ($row['delete_date'] != NULL) {
             echo("<script>alert('삭제된 게시물입니다.')</script>");
-            echo("<script>window.location = '/web01/boardlist.php';</script>");
-            exit;
+            if ($_SESSION['user_id'] != 'admin') {
+                echo("<script>window.location = '/web01/boardlist.php';</script>");
+                exit;
+            }
         }
 
         if ($row['user_id'] != $_SESSION['user_id']) {
