@@ -34,7 +34,25 @@ CREATE TABLE view
      user_id     VARCHAR(30)     NOT NULL,  					-- 조회한 유저 id(비로그인시 세션 id)
      board_no     INT,  							-- 조회한 게시물 번호(FK)
      FOREIGN KEY(board_no) REFERENCES board(board_no) ON DELETE CASCADE
-);     
+);
+
+[게시글 추천]
+CREATE TABLE board_likes
+(
+     likes_no    INT     NOT NULL     AUTO_INCREMENT     PRIMARY KEY,  		-- 추천 고유번호(PK)
+     user_id     VARCHAR(30)     NOT NULL,  					-- 추천한 유저 id
+     board_no     INT,  							-- 추천한 게시물 번호(FK)
+     FOREIGN KEY(board_no) REFERENCES board(board_no) ON DELETE CASCADE
+);
+
+[댓글 추천]
+CREATE TABLE reply_likes
+(
+     likes_no    INT     NOT NULL     AUTO_INCREMENT     PRIMARY KEY,  		-- 추천 고유번호(PK)
+     user_id     VARCHAR(30)     NOT NULL,  					-- 추천한 유저 id
+     reply_no     INT,  							-- 추천한 댓글 번호(FK)
+     FOREIGN KEY(reply_no) REFERENCES reply(reply_no) ON DELETE CASCADE
+);
 
 [댓글]
 CREATE TABLE reply
@@ -44,7 +62,7 @@ CREATE TABLE reply
      depth     INT, 								-- 대댓글이면 1 아니면 0
      to_user_nickname     VARCHAR(20)     DEFAULT NULL, 			-- 누구에게 쓴 댓글인지
      group_no     INT     DEFAULT NULL, 					-- 대댓글 그룹
-     like     INT     DEFAULT 0, 						-- 추천수
+     likes     INT     DEFAULT 0, 						-- 추천수
      create_date     DATETIME     NOT NULL, 					-- 작성시각
      update_date    DATETIME     DEFAULT NULL, 				-- 수정시각
      delete_date     DATETIME     DEFAULT NULL, 				-- 삭제시각
@@ -52,5 +70,14 @@ CREATE TABLE reply
      user_no     INT, 							-- 회원 고유번호(FK)
      board_no     INT, 							-- 게시판 고유번호(FK)
      FOREIGN KEY(user_no) REFERENCES member(user_no) ON DELETE SET NULL,
-     FOREIGN KEY(board_no) REFERENCES member(board_no) ON DELETE SET NULL
+     FOREIGN KEY(board_no) REFERENCES board(board_no) ON DELETE SET NULL
+);
+
+[팔로우]
+CREATE TABLE follow
+(
+     follow_no     INT     NOT NULL     AUTO_INCREMENT     PRIMARY KEY, 	-- 팔로우 고유번호(PK)
+     user_id    VARCHAR(30)     NOT NULL,  					-- 팔로우한 사람
+     target_no    INT     NOT NULL,     					-- 팔로우 당한 사람 user_no(FK)
+     FOREIGN KEY(target_no) REFERENCES member(user_no) ON DELETE CASCADE
 );

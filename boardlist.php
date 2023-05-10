@@ -30,7 +30,7 @@
 
 <ol>
     <li>
-        <a href="boardlist.php?id=0?p=1">
+        <a href="boardlist.php?id=0&p=1">
             <?php if ($_GET['id'] == 0) { echo ("<strong>전체</strong>"); } else { echo "전체"; } ?>
         </a>
     </li>
@@ -166,12 +166,12 @@
         }
         $title = $title."<b>[{$row['reply_cnt']}]</b>";
         
-        $sql = "SELECT nickname FROM member WHERE user_no = {$row['user_no']};";
+        $sql = "SELECT nickname FROM member WHERE user_no = '{$row['user_no']}';";
         $nickname = mysqli_fetch_array(myquery($dbConnect, $sql));
 ?>
         <tr>
             <td><?php echo "<a href='view_post.php?id={$row['board_no']}'>{$title}</a>"; ?></td>
-            <td><?php echo $nickname['nickname']; ?></td>
+            <td><?php if ($nickname == NULL) { echo "(알 수 없는 유저)"; } else { echo $nickname['nickname']; } ?></td>
             <td><?php echo $row['create_date']; ?></td>
             <td><?php echo $row['view']; ?></td>
             <td><?php echo $row['likes']; ?></td>

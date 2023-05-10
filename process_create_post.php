@@ -18,7 +18,7 @@
     $result = myquery($dbConnect, $sql);
     
     echo("<script>alert('글쓰기 성공')</script>");
-    echo("<script>window.location = '/web01/boardlist.php?id={$_POST['category']}';</script>");
+    echo("<script>window.location = '/web01/boardlist.php?id={$_POST['category']}&p=1';</script>");
     exit;
 ?>
 
